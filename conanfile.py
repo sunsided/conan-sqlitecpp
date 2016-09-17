@@ -21,7 +21,6 @@ class SQLiteCppConan(ConanFile):
 
     def package(self):
         self.copy("FindSQLiteCpp.cmake", ".", ".")
-
         self.copy("*.h", dst="include", src="SQLiteCpp/include")
         self.copy("*.lib", dst="lib", src=".", keep_path=False)
         self.copy("*.a", dst="lib", src=".", keep_path=False)
