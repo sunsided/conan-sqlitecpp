@@ -6,6 +6,8 @@ class SQLiteCppConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     url = "https://github.com/AlbanSeurat/conan-sqlitecpp"
     license = "MIT"
+    options = {"lint": [True, False]}
+    default_options = "lint=False"
     # No exports necessary
 
     def source(self):
@@ -13,7 +15,8 @@ class SQLiteCppConan(ConanFile):
 
     def build(self):
         cmake = CMake(self.settings)
-        self.run('cmake %s/SQLiteCpp %s' % (self.conanfile_directory, cmake.command_line))
+        lint = "-DSQLITECPP_RUN_CPPLINT=0" if not self.options.lint else ""
+        self.run('cmake %s/SQLiteCpp %s %s' % (self.conanfile_directory, cmake.command_line, lint))
         self.run("cmake --build . %s" % cmake.build_config)
 
     def package(self):
